@@ -55,6 +55,7 @@ void Game::Setup()
 
     // Initialize game objects
     ball = new Ball(400, 400, 6);   
+    paddle = new Paddle(400, 550, 32, 5);
 }
 
 void Game::ProcessInput()
@@ -85,7 +86,18 @@ void Game::Render()
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
+    // Draw ball
     filledCircleColor(renderer, ball->xPos, ball->yPos, ball->radius, 0xFFFFFFFF);
+    
+    // Draw paddle
+    boxColor(
+        renderer, 
+        (paddle->xPos - paddle->width), 
+        (paddle->yPos - paddle->height), 
+        (paddle->xPos + paddle->width),
+        (paddle->yPos + paddle->height),
+        0xFFFFFFFF
+    );
 
     SDL_RenderPresent(renderer);
 }
@@ -93,6 +105,7 @@ void Game::Render()
 void Game::Destroy()
 {
     delete ball;
+    delete paddle;
     
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

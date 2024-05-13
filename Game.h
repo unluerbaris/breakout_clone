@@ -2,11 +2,13 @@
 #define GAME_H
 
 #include "Ball.h"
+#include "Paddle.h"
 
 class Game
 {
     private:
         Ball* ball;
+        Paddle* paddle;
         bool isRunning = false;
 
         const int WINDOW_WIDTH = 800;
