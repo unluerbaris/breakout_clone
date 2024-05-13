@@ -13,6 +13,9 @@ class Game
 
         const int WINDOW_WIDTH = 800;
         const int WINDOW_HEIGHT = 600;
+        const int FPS = 60;
+        const int MILLISECS_PER_FRAME = 1000 / FPS;
+        const int PIXELS_PER_METER = 50;
         
     public:
         Game() = default;

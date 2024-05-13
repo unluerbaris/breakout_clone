@@ -53,8 +53,12 @@ void Game::Setup()
 {
     isRunning = InitializeWindow();
 
-    // Initialize game objects
-    ball = new Ball(400, 400, 6);   
+    // Initialize Ball
+    ball = new Ball(400, 400, 6);
+    ball->velocity.x = 3 * PIXELS_PER_METER;
+    ball->velocity.y = 2 * PIXELS_PER_METER;
+
+    // Initialize PAddle
     paddle = new Paddle(400, 550, 32, 5);
 }
 
@@ -78,7 +82,19 @@ void Game::ProcessInput()
 
 void Game::Update()
 {
-    // Update game objects
+    // Wait some time until the reach the target frame time in milliseconds
+    static int timePreviousFrame;
+    int timeToWait = MILLISECS_PER_FRAME - (SDL_GetTicks() - timePreviousFrame);
+    if (timeToWait > 0) SDL_Delay(timeToWait);
+
+    // Calculate the deltatime in seconds
+    float deltaTime = (SDL_GetTicks() - timePreviousFrame) / 1000.0f;
+    if (deltaTime > 0.016) deltaTime = 0.016;
+
+    // Set the time of the current frame to be used in the next one
+    timePreviousFrame = SDL_GetTicks();
+
+    ball->Move(deltaTime);
 }
 
 void Game::Render()
@@ -87,7 +103,7 @@ void Game::Render()
     SDL_RenderClear(renderer);
 
     // Draw ball
-    filledCircleColor(renderer, ball->xPos, ball->yPos, ball->radius, 0xFFFFFFFF);
+    filledCircleColor(renderer, ball->position.x, ball->position.y, ball->radius, 0xFFFFFFFF);
     
     // Draw paddle
     boxColor(
