@@ -119,6 +119,13 @@ void Game::Update()
         ball->velocity.y *= -1;
     }
 
+    // Ball and Paddle Collision
+    if (ball->position.y + ball->radius >= paddle->position.y - paddle->height 
+        && ball->position.x + ball->radius <= paddle->position.x + paddle->width
+        && ball->position.x - ball->radius >= paddle->position.x - paddle->width) {
+        ball->velocity.y *= -1;
+    }
+
     // Screen Borders for Paddle
     if (paddle->position.x - paddle->width < 0) {
         paddle->position.x = paddle->width;
