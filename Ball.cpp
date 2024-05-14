@@ -14,7 +14,7 @@ Ball::~Ball()
    std::cout << "ball is destroyed" << std::endl;
 }
 
-void Ball::Move(float deltaTime)
+void Ball::UpdatePosition(float deltaTime)
 {
     this->position.x += this->velocity.x * deltaTime;
     this->position.y += this->velocity.y * deltaTime;

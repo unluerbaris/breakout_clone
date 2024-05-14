@@ -59,7 +59,7 @@ void Game::Setup()
     ball->velocity.y = 2 * PIXELS_PER_METER;
 
     // Initialize PAddle
-    paddle = new Paddle(400, 550, 32, 5);
+    paddle = new Paddle(400, 550, 32, 5, 8);
 }
 
 void Game::ProcessInput()
@@ -75,6 +75,12 @@ void Game::ProcessInput()
                 break;
             case SDL_KEYDOWN:
                 if (event.key.keysym.sym == SDLK_ESCAPE) isRunning = false;
+                if (event.key.keysym.sym == SDLK_RIGHT) paddle->velocity.x = paddle->speed * PIXELS_PER_METER;
+                if (event.key.keysym.sym == SDLK_LEFT) paddle->velocity.x = -1 * paddle->speed * PIXELS_PER_METER;
+                break;
+            case SDL_KEYUP:
+                if (event.key.keysym.sym == SDLK_RIGHT) paddle->velocity.x = 0;
+                if (event.key.keysym.sym == SDLK_LEFT) paddle->velocity.x = 0;
                 break;
         }
     }
@@ -94,7 +100,8 @@ void Game::Update()
     // Set the time of the current frame to be used in the next one
     timePreviousFrame = SDL_GetTicks();
 
-    ball->Move(deltaTime);
+    ball->UpdatePosition(deltaTime);
+    paddle->UpdatePosition(deltaTime);
 }
 
 void Game::Render()
@@ -108,10 +115,10 @@ void Game::Render()
     // Draw paddle
     boxColor(
         renderer, 
-        (paddle->xPos - paddle->width), 
-        (paddle->yPos - paddle->height), 
-        (paddle->xPos + paddle->width),
-        (paddle->yPos + paddle->height),
+        (paddle->position.x - paddle->width), 
+        (paddle->position.y - paddle->height), 
+        (paddle->position.x + paddle->width),
+        (paddle->position.y + paddle->height),
         0xFFFFFFFF
     );
 

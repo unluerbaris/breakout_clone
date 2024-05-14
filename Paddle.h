@@ -1,14 +1,19 @@
 #ifndef PADDLE_H
 #define PADDLE_H
 
+#include "Vector2.h"
+
 struct Paddle
 {
-    float xPos;
-    float yPos;
+    Vector2 position;
+    Vector2 velocity;
     int width;
     int height;
+    int speed;
 
-    Paddle(float xPos, float yPos, int width, int height);
+    void UpdatePosition(float deltaTime);
+
+    Paddle(float xPos, float yPos, int width, int height, int speed);
     ~Paddle();
 };
 
