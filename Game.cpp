@@ -55,11 +55,11 @@ void Game::Setup()
 
     // Initialize Ball
     ball = new Ball(400, 400, 6);
-    ball->velocity.x = 3 * PIXELS_PER_METER;
-    ball->velocity.y = 2 * PIXELS_PER_METER;
+    ball->velocity.x = 6 * PIXELS_PER_METER;
+    ball->velocity.y = 3 * PIXELS_PER_METER;
 
     // Initialize PAddle
-    paddle = new Paddle(400, 550, 32, 5, 8);
+    paddle = new Paddle(400, 550, 32, 5, 10);
 }
 
 void Game::ProcessInput()
@@ -102,6 +102,29 @@ void Game::Update()
 
     ball->UpdatePosition(deltaTime);
     paddle->UpdatePosition(deltaTime);
+
+    // Screen Borders for Ball
+    if (ball->position.x - ball->radius <= 0) {
+        ball->position.x = ball->radius;
+        ball->velocity.x *= -1;
+    } else if (ball->position.x + ball->radius >= WINDOW_WIDTH) {
+        ball->position.x = WINDOW_WIDTH - ball->radius;
+        ball->velocity.x *= -1;
+    }
+    if (ball->position.y - ball->radius <= 0) {
+        ball->position.y = ball->radius;
+        ball->velocity.y *= -1;
+    } else if (ball->position.y + ball->radius >= WINDOW_HEIGHT) {
+        ball->position.y = WINDOW_HEIGHT - ball->radius;
+        ball->velocity.y *= -1;
+    }
+
+    // Screen Borders for Paddle
+    if (paddle->position.x - paddle->width < 0) {
+        paddle->position.x = paddle->width;
+    } else if (paddle->position.x + paddle->width > WINDOW_WIDTH) {
+        paddle->position.x = WINDOW_WIDTH - paddle->width;
+    }
 }
 
 void Game::Render()
