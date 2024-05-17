@@ -3,14 +3,20 @@
 
 #include "Ball.h"
 #include "Paddle.h"
+#include "Brick.h"
 
 class Game
 {
     private:
         Ball* ball;
         Paddle* paddle;
+        Brick* bricks[10];
         bool isRunning = false;
 
+        // Game
+        const int NUMBER_OF_BRICKS = 10;
+
+        // Screen and FPS
         const int WINDOW_WIDTH = 800;
         const int WINDOW_HEIGHT = 600;
         const int FPS = 60;

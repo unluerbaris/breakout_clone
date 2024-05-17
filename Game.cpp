@@ -58,8 +58,14 @@ void Game::Setup()
     ball->velocity.x = 6 * PIXELS_PER_METER;
     ball->velocity.y = 3 * PIXELS_PER_METER;
 
-    // Initialize PAddle
+    // Initialize Paddle
     paddle = new Paddle(400, 550, 32, 5, 10);
+
+    // Initialize bricks
+    for (int i = 0; i < NUMBER_OF_BRICKS; i++)
+    {
+        bricks[i] = new Brick(50 + (i * 70), 30, 25, 10);
+    }
 }
 
 void Game::ProcessInput()
@@ -152,6 +158,19 @@ void Game::Render()
         0xFFFFFFFF
     );
 
+    // Draw bricks
+    for (int i = 0; i < NUMBER_OF_BRICKS; i++)
+    {
+        boxColor(
+            renderer, 
+            (bricks[i]->position.x - paddle->width), 
+            (bricks[i]->position.y - paddle->height), 
+            (bricks[i]->position.x + paddle->width),
+            (bricks[i]->position.y + paddle->height),
+            0xFFFFFFFF
+        );
+    }
+
     SDL_RenderPresent(renderer);
 }
 
@@ -159,6 +178,11 @@ void Game::Destroy()
 {
     delete ball;
     delete paddle;
+
+    for (int i = 0; i < NUMBER_OF_BRICKS; i++)
+    {
+        delete bricks[i];
+    }
     
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
