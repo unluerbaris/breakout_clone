@@ -2,6 +2,7 @@
 #define BALL_H
 
 #include "Vector2.h"
+#include <SDL2/SDL.h>
 
 struct Ball
 {
@@ -10,6 +11,7 @@ struct Ball
     Vector2 velocity;
 
     void UpdatePosition(float deltaTime);
+    void DrawBall(SDL_Renderer* renderer);
 
     Ball(float xPos, float yPos, int radius);
     ~Ball();

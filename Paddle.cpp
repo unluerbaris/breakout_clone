@@ -1,7 +1,7 @@
 #include "Paddle.h"
 #include <iostream>
 
-Paddle::Paddle(float xPos, float yPos, int width, int height, int speed)
+Paddle::Paddle(int xPos, int yPos, int width, int height, int speed)
 {
     this->position = Vector2(xPos, yPos);
     this->velocity = Vector2(0.0, 0.0);

@@ -1,5 +1,5 @@
 build:
-	g++ -std=c++17 ./*.cpp -lSDL2 -lSDL2_gfx -o breakout
+	g++ -std=c++17 ./*.cpp -lSDL2 -lSDL2_image -o breakout
 
 run:
 	./breakout

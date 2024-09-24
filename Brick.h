@@ -6,10 +6,12 @@
 struct Brick
 {
     Vector2 position;
+    int xPos;
+    int yPos;
     int width;
     int height;
 
-    Brick(float xPos, float yPos, int width, int height);
+    Brick(int xPos, int yPos, int width, int height);
     ~Brick();
 };
 

@@ -6,7 +6,7 @@ Vector2::Vector2()
     this->y = 0.0;
 }
 
-Vector2::Vector2(float x, float y)
+Vector2::Vector2(int x, int y)
 {
     this->x = x;
     this->y = y;

@@ -13,7 +13,7 @@ struct Paddle
 
     void UpdatePosition(float deltaTime);
 
-    Paddle(float xPos, float yPos, int width, int height, int speed);
+    Paddle(int xPos, int yPos, int width, int height, int speed);
     ~Paddle();
 };
 

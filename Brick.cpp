@@ -1,7 +1,7 @@
 #include "Brick.h"
 #include <iostream>
 
-Brick::Brick(float xPos, float yPos, int width, int height)
+Brick::Brick(int xPos, int yPos, int width, int height)
 {
     this->position = Vector2(xPos, yPos);
     this->width = width;

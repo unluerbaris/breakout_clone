@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL2_gfxPrimitives.h>
+#include <SDL2/SDL_image.h>
 #include "Game.h"
 
 SDL_Window* window = NULL;
@@ -59,12 +59,17 @@ void Game::Setup()
     ball->velocity.y = 3 * PIXELS_PER_METER;
 
     // Initialize Paddle
-    paddle = new Paddle(400, 550, 32, 5, 10);
+    paddle = new Paddle(400, 550, 64, 10, 10);
 
     // Initialize bricks
     for (int i = 0; i < NUMBER_OF_BRICKS; i++)
     {
-        bricks[i] = new Brick(50 + (i * 70), 30, 25, 10);
+        bricks[i] = new Brick(
+            SCREEN_EDGE_OFFSET + (i * (FIXED_BRICK_WIDTH + GAP_BETWEEN_BRICKS)), 
+            100,
+            FIXED_BRICK_WIDTH,
+            FIXED_BRICK_HEIGHT
+        );
     }
 }
 
@@ -110,32 +115,43 @@ void Game::Update()
     paddle->UpdatePosition(deltaTime);
 
     // Screen Borders for Ball
-    if (ball->position.x - ball->radius <= 0) {
+    if (ball->position.x - ball->radius <= 0) 
+    {
         ball->position.x = ball->radius;
         ball->velocity.x *= -1;
-    } else if (ball->position.x + ball->radius >= WINDOW_WIDTH) {
+    } 
+    else if (ball->position.x + ball->radius >= WINDOW_WIDTH) 
+    {
         ball->position.x = WINDOW_WIDTH - ball->radius;
         ball->velocity.x *= -1;
     }
-    if (ball->position.y - ball->radius <= 0) {
+
+    if (ball->position.y - ball->radius <= 0) 
+    {
         ball->position.y = ball->radius;
         ball->velocity.y *= -1;
-    } else if (ball->position.y + ball->radius >= WINDOW_HEIGHT) {
+    } 
+    else if (ball->position.y + ball->radius >= WINDOW_HEIGHT) 
+    {
         ball->position.y = WINDOW_HEIGHT - ball->radius;
         ball->velocity.y *= -1;
     }
 
     // Ball and Paddle Collision
-    if (ball->position.y + ball->radius >= paddle->position.y - paddle->height 
-        && ball->position.x + ball->radius <= paddle->position.x + paddle->width
-        && ball->position.x - ball->radius >= paddle->position.x - paddle->width) {
+    if (ball->position.y + ball->radius >= paddle->position.y && 
+        ball->position.x + ball->radius <= paddle->position.x + paddle->width &&
+        ball->position.x - ball->radius >= paddle->position.x) 
+    {
         ball->velocity.y *= -1;
     }
 
     // Screen Borders for Paddle
-    if (paddle->position.x - paddle->width < 0) {
-        paddle->position.x = paddle->width;
-    } else if (paddle->position.x + paddle->width > WINDOW_WIDTH) {
+    if (paddle->position.x < 0) 
+    {
+        paddle->position.x = 0;
+    } 
+    else if (paddle->position.x + paddle->width > WINDOW_WIDTH) 
+    {
         paddle->position.x = WINDOW_WIDTH - paddle->width;
     }
 }
@@ -146,29 +162,30 @@ void Game::Render()
     SDL_RenderClear(renderer);
 
     // Draw ball
-    filledCircleColor(renderer, ball->position.x, ball->position.y, ball->radius, 0xFFFFFFFF);
+    ball->DrawBall(renderer);
+    //filledCircleColor(renderer, ball->position.x, ball->position.y, ball->radius, 0xFFFFFFFF);
     
     // Draw paddle
-    boxColor(
-        renderer, 
-        (paddle->position.x - paddle->width), 
-        (paddle->position.y - paddle->height), 
-        (paddle->position.x + paddle->width),
-        (paddle->position.y + paddle->height),
-        0xFFFFFFFF
-    );
+    SDL_Rect fillRectPaddle = { 
+        paddle->position.x, 
+        paddle->position.y, 
+        paddle->width, 
+        paddle->height
+    };
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);		
+	SDL_RenderFillRect(renderer, &fillRectPaddle);
 
-    // Draw bricks
+    //Draw bricks
     for (int i = 0; i < NUMBER_OF_BRICKS; i++)
     {
-        boxColor(
-            renderer, 
-            (bricks[i]->position.x - paddle->width), 
-            (bricks[i]->position.y - paddle->height), 
-            (bricks[i]->position.x + paddle->width),
-            (bricks[i]->position.y + paddle->height),
-            0xFFFFFFFF
-        );
+        SDL_Rect fillRectPaddle = { 
+            bricks[i]->position.x, 
+            bricks[i]->position.y, 
+            bricks[i]->width, 
+            bricks[i]->height
+        };
+	    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);		
+	    SDL_RenderFillRect(renderer, &fillRectPaddle);
     }
 
     SDL_RenderPresent(renderer);

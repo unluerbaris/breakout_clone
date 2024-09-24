@@ -15,6 +15,10 @@ class Game
 
         // Game
         const int NUMBER_OF_BRICKS = 10;
+        const int GAP_BETWEEN_BRICKS = 10;
+        const int SCREEN_EDGE_OFFSET = 50;
+        const int FIXED_BRICK_WIDTH = 45;
+        const int FIXED_BRICK_HEIGHT = 15;
 
         // Screen and FPS
         const int WINDOW_WIDTH = 800;
