@@ -61,6 +61,9 @@ void Game::Setup()
     // Initialize Paddle
     paddle = new Paddle(400, 550, 64, 10, 10);
 
+    // Bigger paddle for tesing the collisions
+    // paddle = new Paddle(400, 550, 256, 40, 10);
+
     // Initialize bricks
     for (int i = 0; i < NUMBER_OF_BRICKS; i++)
     {
@@ -137,14 +140,6 @@ void Game::Update()
         ball->velocity.y *= -1;
     }
 
-    // Ball and Paddle Collision
-    if (ball->position.y + ball->radius >= paddle->position.y && 
-        ball->position.x + ball->radius <= paddle->position.x + paddle->width &&
-        ball->position.x - ball->radius >= paddle->position.x) 
-    {
-        ball->velocity.y *= -1;
-    }
-
     // Screen Borders for Paddle
     if (paddle->position.x < 0) 
     {
@@ -153,6 +148,22 @@ void Game::Update()
     else if (paddle->position.x + paddle->width > WINDOW_WIDTH) 
     {
         paddle->position.x = WINDOW_WIDTH - paddle->width;
+    }
+
+    // BALL AND PADDLE COLLISIONS
+    if (ball->position.y + ball->radius > paddle->position.y && 
+        ball->position.x + ball->radius < paddle->position.x + paddle->width &&
+        ball->position.x - ball->radius > paddle->position.x) 
+    {
+        ball->velocity.y *= -1; // Only change y direction if ball hits the top of the paddle
+    }
+    else if (ball->position.x + ball->radius > paddle->position.x &&
+        ball->position.y + ball->radius > paddle->position.y &&
+        ball->position.x - ball->radius < paddle->position.x + paddle->width &&
+        ball->position.y - ball->radius < paddle->position.y + paddle->height)
+    {
+        ball->velocity.x *= -1;
+        ball->velocity.y *= -1;
     }
 }
 

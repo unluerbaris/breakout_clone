@@ -25,7 +25,6 @@ void Ball::DrawBall(SDL_Renderer* renderer)
 {
     for (int innerCircleRadius = 0; innerCircleRadius < this->radius; innerCircleRadius++)
     {
-        std::cout << innerCircleRadius << std::endl;
         int x = (innerCircleRadius - 1);
         int y = 0;
         int tx = 1;
