@@ -3,6 +3,7 @@
 
 Brick::Brick(int xPos, int yPos, int width, int height)
 {
+    this->isActive = true;
     this->position = Vector2(xPos, yPos);
     this->width = width;
     this->height = height;

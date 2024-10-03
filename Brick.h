@@ -10,6 +10,7 @@ struct Brick
     int yPos;
     int width;
     int height;
+    bool isActive;
 
     Brick(int xPos, int yPos, int width, int height);
     ~Brick();

@@ -150,7 +150,7 @@ void Game::Update()
         paddle->position.x = WINDOW_WIDTH - paddle->width;
     }
 
-    // BALL AND PADDLE COLLISIONS
+    // BALL AND PADDLE COLLISIONS // TODO: left, right and middle areas of the paddle should behave differently
     if (ball->position.y + ball->radius > paddle->position.y && 
         ball->position.x + ball->radius < paddle->position.x + paddle->width &&
         ball->position.x - ball->radius > paddle->position.x) 
@@ -169,12 +169,15 @@ void Game::Update()
     // BALL AND BRICK COLLISIONS
     for (int i = 0; i < NUMBER_OF_BRICKS; i++)
     {
+        if (!bricks[i]->isActive) continue; // Don't check for collision if it is not active
+
         if (ball->position.x + ball->radius > bricks[i]->position.x &&
             ball->position.y + ball->radius > bricks[i]->position.y &&
             ball->position.x - ball->radius < bricks[i]->position.x + bricks[i]->width &&
             ball->position.y - ball->radius < bricks[i]->position.y + bricks[i]->height)
         {
             ball->velocity.y *= -1;
+            bricks[i]->isActive = false; // Don't render and don't check for collision if it is not active
         }
     }
 }
@@ -201,6 +204,8 @@ void Game::Render()
     //Draw bricks
     for (int i = 0; i < NUMBER_OF_BRICKS; i++)
     {
+        if (!bricks[i]->isActive) continue; // Don't render if it is not active
+
         SDL_Rect fillRectPaddle = { 
             bricks[i]->position.x, 
             bricks[i]->position.y, 
