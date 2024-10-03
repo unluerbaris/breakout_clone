@@ -150,21 +150,38 @@ void Game::Update()
         paddle->position.x = WINDOW_WIDTH - paddle->width;
     }
 
-    // BALL AND PADDLE COLLISIONS // TODO: left, right and middle areas of the paddle should behave differently
+    // BALL AND PADDLE COLLISIONS //
+
+    // Center 70 percent of the paddle
     if (ball->position.y + ball->radius > paddle->position.y && 
-        ball->position.x + ball->radius < paddle->position.x + paddle->width &&
-        ball->position.x - ball->radius > paddle->position.x) 
+        ball->position.x + ball->radius < paddle->position.x + (paddle->width * 0.85) &&
+        ball->position.x - ball->radius > paddle->position.x + (paddle->width * 0.15)) 
     {
-        ball->velocity.y *= -1; // Only change y direction if ball hits the top of the paddle
-    }
+        ball->velocity.y *= -1;
+    } // Top left side of the paddle
+    else if (ball->position.y + ball->radius > paddle->position.y && 
+             ball->position.x + ball->radius < paddle->position.x + (paddle->width * 0.15) &&
+             ball->position.x - ball->radius > paddle->position.x) 
+    {
+        ball->velocity.x *= -1;
+        ball->velocity.y *= -1;
+    } // Top right side of the paddle
+    else if (ball->position.y + ball->radius > paddle->position.y && 
+             ball->position.x + ball->radius < paddle->position.x + paddle->width &&
+             ball->position.x - ball->radius > paddle->position.x + (paddle->width * 0.85)) 
+    {
+        ball->velocity.x *= -1;
+        ball->velocity.y *= -1;
+    } // Sides of the paddle
     else if (ball->position.x + ball->radius > paddle->position.x &&
-        ball->position.y + ball->radius > paddle->position.y &&
-        ball->position.x - ball->radius < paddle->position.x + paddle->width &&
-        ball->position.y - ball->radius < paddle->position.y + paddle->height)
+             ball->position.y + ball->radius > paddle->position.y &&
+             ball->position.x - ball->radius < paddle->position.x + paddle->width &&
+             ball->position.y - ball->radius < paddle->position.y + paddle->height)
     {
         ball->velocity.x *= -1;
         ball->velocity.y *= -1;
     }
+
 
     // BALL AND BRICK COLLISIONS
     for (int i = 0; i < NUMBER_OF_BRICKS; i++)
