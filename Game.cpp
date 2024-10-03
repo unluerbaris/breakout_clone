@@ -165,6 +165,18 @@ void Game::Update()
         ball->velocity.x *= -1;
         ball->velocity.y *= -1;
     }
+
+    // BALL AND BRICK COLLISIONS
+    for (int i = 0; i < NUMBER_OF_BRICKS; i++)
+    {
+        if (ball->position.x + ball->radius > bricks[i]->position.x &&
+            ball->position.y + ball->radius > bricks[i]->position.y &&
+            ball->position.x - ball->radius < bricks[i]->position.x + bricks[i]->width &&
+            ball->position.y - ball->radius < bricks[i]->position.y + bricks[i]->height)
+        {
+            ball->velocity.y *= -1;
+        }
+    }
 }
 
 void Game::Render()
