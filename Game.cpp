@@ -65,14 +65,29 @@ void Game::Setup()
     // paddle = new Paddle(400, 550, 256, 40, 10);
 
     // Initialize bricks
+    int brickLineYPos = 100;
+    int columnIndex = 0;
+
     for (int i = 0; i < NUMBER_OF_BRICKS; i++)
     {
         bricks[i] = new Brick(
-            SCREEN_EDGE_OFFSET + (i * (FIXED_BRICK_WIDTH + GAP_BETWEEN_BRICKS)), 
-            100,
+            SCREEN_EDGE_OFFSET + (columnIndex * (FIXED_BRICK_WIDTH + GAP_BETWEEN_BRICKS)), 
+            brickLineYPos,
             FIXED_BRICK_WIDTH,
             FIXED_BRICK_HEIGHT
         );
+
+        // If brick line is exciding the screen border, create a new line
+        if (bricks[i]->position.x + bricks[i]->width >= WINDOW_WIDTH)
+        {
+            bricks[i]->position.y = brickLineYPos + FIXED_BRICK_HEIGHT + GAP_BETWEEN_BRICKS;
+            brickLineYPos = bricks[i]->position.y;
+
+            bricks[i]->position.x = bricks[0]->position.x;
+            columnIndex = 0;
+         }
+
+         columnIndex++;
     }
 }
 
